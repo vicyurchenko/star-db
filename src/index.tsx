@@ -10,18 +10,18 @@ class SwapiService {
         if (!res.ok) {
             throw new Error(`Could not fetch ${url}, received ${res.status}`);
         }
-        const body: any = await res.json();
+        const body: T = await res.json();
         return body;
     }
 
-    async getAllPeople(): Promise<{ results: object }> {
-        const res: { results : object } = await this.getResource<{ results: object}>(`${this.apiBase}/people/`);
-        return res;
+    async getAllPeople(): Promise<JSON> {
+        const res: { results : JSON } = await this.getResource<{ results: JSON}>(`${this.apiBase}/people/`);
+        return res.results;
     }
 
-    async getPerson(id: number): Promise<{ results: object }> {
-        const res: { results : object } = await this.getResource<{ results: object}>(`${this.apiBase}/people${id}`);
-        return res;
+    async getPerson(id: number): Promise<JSON> {
+        const res: { results : JSON } = await this.getResource<{ results : JSON }>(`${this.apiBase}/people${id}`);
+        return res.results;
     }
 
 }
