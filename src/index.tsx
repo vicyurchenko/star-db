@@ -1,21 +1,34 @@
 //import React from 'react';
 //import ReactDOM from 'react-dom';
 
-const getResource = async (url: string) => {
-    const res: Response = await fetch(url);
-    if (!res.ok) {
-        throw new Error(`Could not fetch ${url}, received ${res.status}`);
+class SwapiService {
+
+    private apiBase: string = 'https://swapi.dev/api';
+
+    async getResource<T>(url: string): Promise<T> {
+        const res: Response = await fetch(url);
+        if (!res.ok) {
+            throw new Error(`Could not fetch ${url}, received ${res.status}`);
+        }
+        const body: any = await res.json();
+        return body;
     }
-    const body: JSON = await res.json();
-    return body;
+
+    async getAllPeople(): Promise<{ results: object }> {
+        const res: { results : object } = await this.getResource<{ results: object}>(`${this.apiBase}/people/`);
+        return res;
+    }
+
+    async getPerson(id: number): Promise<{ results: object }> {
+        const res: { results : object } = await this.getResource<{ results: object}>(`${this.apiBase}/people${id}`);
+        return res;
+    }
+
 }
 
-getResource('https://swapi.dev/api/people/1/')
-    .then((body) => {
-        console.log(body);
-    })
-    .catch( (e) => {
-        console.error('Could not fetch', e);
-    } );
+const swapi: SwapiService = new SwapiService();
+
+swapi.getAllPeople().then( (body) => { console.log(body)})
+
 
 export {}
