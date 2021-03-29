@@ -2,7 +2,7 @@ import React from 'react';
 
 import './header.css';
 
-const Header = () => {
+export const Header: React.FC = () => {
   return (
     <div className="header d-flex">
       <h3>
