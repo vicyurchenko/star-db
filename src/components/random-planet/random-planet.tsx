@@ -30,10 +30,15 @@ export default class RandomPlanet extends Component<randomPlanetProps> {
   constructor(props: randomPlanetProps) {
     super(props);
     this.swapiService = new SwapiService();
+    this.updatePlanet = this.updatePlanet.bind(this);
     this.updatePlanet();
   }
 
   updatePlanet() {
+
+    let planetsCount = 0;
+    this.swapiService.getAllPlanets().then(p => planetsCount = p.length)
+
     this.swapiService.getAllPlanets().then((planets) => {
       const id: number = Math.floor(Math.random() * (planets.length-1) + 1);
       this.swapiService.getPlanet(id).then((planet) => {
@@ -57,6 +62,7 @@ export default class RandomPlanet extends Component<randomPlanetProps> {
         <div className="random-planet jumbotron rounded">
           <img className="planet-image" alt={this.state.name}
                src={this.state.image}
+               onClick={this.updatePlanet}
           />
           <div>
             <h4>{this.state.name}</h4>
