@@ -72,7 +72,7 @@ export default class RandomPlanet extends Component<randomPlanetProps> {
                src={this.state.planet.image}
           />
           <div>
-            <h4>{this.state.name}</h4>
+            <h4>{this.state.planet.name}</h4>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
                 <span className="term">Population</span>
