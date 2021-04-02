@@ -1,3 +1,5 @@
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "node:constants";
+
 type responsePeopleData = {
   birth_year: string,
   created: string,
@@ -24,14 +26,14 @@ type responsePlanetData = {
   edited: string,
   films:  string[],
   gravity: number,
-  name: number,
+  name: string,
   orbital_period: number,
   population: number,
   residents: string[],
   rotation_period: number,
   surface_water: number,
   terrain: number,
-  url: number,
+  url: string,
 };
 
 type responseStarshipData = {
@@ -54,6 +56,15 @@ type responseStarshipData = {
   starship_class: string,
   url: string,
 };
+
+type planetData = {
+  id: number,
+  name: string,
+  image:  string,
+  rotationPeriod: number,
+  diameter: number,
+  population: number
+}
 
 export default class SwapiService {
 
@@ -83,9 +94,9 @@ export default class SwapiService {
     return res.results;
   }
 
-  async getPlanet(id: number): Promise<responsePlanetData> {
+  async getPlanet(id: number): Promise<planetData> {
     const res: responsePlanetData = await this.getResource(`${this.apiBase}/planets/${id}`);
-    return res;
+    return this.transformPlanet(res);
   }
 
   async getAllStarships(): Promise<responseStarshipData[]> {
@@ -98,4 +109,28 @@ export default class SwapiService {
     console.log(res);
     return res;
   }
+
+  private transformPlanet(respPlanet: responsePlanetData) : planetData {
+
+    let id: number =  0;        
+
+    const regResult: any = respPlanet.url.match(/\/(\d*)\/$/);
+
+    if (typeof regResult !=  null) {
+      id = regResult[1];
+    }
+
+    let planet: planetData = {
+      id,
+      name: respPlanet.name,
+      image: `https://starwars-visualguide.com/assets/img/planets/${id}.jpg`,
+      rotationPeriod: respPlanet.rotation_period,
+      population: respPlanet.population,
+      diameter: respPlanet.diameter
+    };
+
+    return planet;
+  }
+
+
 }

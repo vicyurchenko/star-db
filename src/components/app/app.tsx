@@ -10,7 +10,6 @@ const App = () => {
     return (
         <div>
             <Header />
-            <RandomPlanet />
 
             <div className="row mb2">
                 <div className="col-md-6">
