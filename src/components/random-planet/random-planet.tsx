@@ -49,7 +49,7 @@ export default class RandomPlanet extends Component<randomPlanetProps> {
     this.swapiService.getAllPlanets().then((planets) => {
       const id: number = Math.floor(Math.random() * (planets.length-1) + 1);
       this.swapiService.getPlanet(id).then((planet) => {
-        this.setState(planet);
+        this.setState({planet, loading: false});
       });
     });
   }
@@ -62,8 +62,12 @@ export default class RandomPlanet extends Component<randomPlanetProps> {
     const { planet, loading } = this.state;
 
     if (loading) {
-      console.log('here');
-      return <LoadSpinner />
+      return (
+        <div className="random-planet jumbotron rounded">
+          <LoadSpinner /> 
+        </div>
+      )
+
     }
 
     return (
