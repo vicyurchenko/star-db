@@ -20,6 +20,9 @@ type randomPlanetState = {
   loading: boolean
 }
 
+interface PlanetViewProps {
+  planet: randomPlanet
+}
 
 export default class RandomPlanet extends Component<randomPlanetProps> {
 
@@ -61,39 +64,42 @@ export default class RandomPlanet extends Component<randomPlanetProps> {
 
     const { planet, loading } = this.state;
 
-    if (loading) {
-      return (
-        <div className="random-planet jumbotron rounded">
-          <LoadSpinner /> 
-        </div>
-      )
-
-    }
+    const spinner = loading ? <LoadSpinner/> : null; 
+    const content = !loading ? <PlanetView planet={planet}/> : null;
 
     return (
         <div className="random-planet jumbotron rounded">
-          <img className="planet-image" alt={this.state.planet.name}
-               src={this.state.planet.image}
-          />
-          <div>
-            <h4>{this.state.planet.name}</h4>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">
-                <span className="term">Population</span>
-                <span>{this.state.planet.population}</span>
-              </li>
-              <li className="list-group-item">
-                <span className="term">Rotation Period</span>
-                <span>{this.state.planet.rotationPeriod}</span>
-              </li>
-              <li className="list-group-item">
-                <span className="term">Diameter</span>
-                <span>{this.state.planet.diameter}</span>
-              </li>
-            </ul>
-          </div>
+          {spinner}
+          {content}
         </div>
 
     );
   }
+}
+
+const PlanetView = ({planet}:PlanetViewProps) => {
+  return (
+    <React.Fragment>
+      <img className="planet-image" alt={planet.name}
+            src={planet.image}
+      />
+      <div>
+        <h4>{planet.name}</h4>
+        <ul className="list-group list-group-flush">
+          <li className="list-group-item">
+            <span className="term">Population</span>
+            <span>{planet.population}</span>
+          </li>
+          <li className="list-group-item">
+            <span className="term">Rotation Period</span>
+            <span>{planet.rotationPeriod}</span>
+          </li>
+          <li className="list-group-item">
+            <span className="term">Diameter</span>
+            <span>{planet.diameter}</span>
+          </li>
+        </ul>
+      </div>
+    </React.Fragment>
+  )
 }
