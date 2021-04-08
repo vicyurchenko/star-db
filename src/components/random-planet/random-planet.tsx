@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import SwapiService from "../../services/swapi-service";
 import LoadSpinner from '../load-spinner';
+import ErrorIndicator from '../error-indicator';
 
 import './random-planet.css';
 
@@ -17,7 +18,8 @@ type randomPlanet = {
 
 type randomPlanetState = {
   planet: randomPlanet,
-  loading: boolean
+  loading: boolean,
+  error: boolean
 }
 
 interface PlanetViewProps {
@@ -37,6 +39,7 @@ export default class RandomPlanet extends Component<randomPlanetProps> {
       diameter: 0
     },
     loading: true,  
+    error: false
   }
 
   constructor(props: randomPlanetProps) {
@@ -45,16 +48,16 @@ export default class RandomPlanet extends Component<randomPlanetProps> {
     this.updatePlanet();
   }
 
-  updatePlanet() {
-    let planetsCount = 0;
-    this.swapiService.getAllPlanets().then(p => planetsCount = p.length)
+  onError = (err: any) => {
+    this.setState({error: true, loading: false})
+  };
 
-    this.swapiService.getAllPlanets().then((planets) => {
-      const id: number = Math.floor(Math.random() * (planets.length-1) + 1);
-      this.swapiService.getPlanet(id).then((planet) => {
-        this.setState({planet, loading: false});
-      });
-    });
+  async updatePlanet() {
+    let planetsCount = 0;
+    await this.swapiService.getAllPlanets().then(p => planetsCount = p.length).catch(this.onError);
+    await this.swapiService.getPlanet(Math.floor(Math.random() * (planetsCount-1) + 1)).then((planet) => { 
+      this.setState({planet, loading: false});
+    }).catch(this.onError);
   }
 
 
@@ -62,15 +65,20 @@ export default class RandomPlanet extends Component<randomPlanetProps> {
 
   render() {
 
-    const { planet, loading } = this.state;
+    const { planet, loading, error } = this.state;
+
+    const hasData = !(error || loading);
 
     const spinner = loading ? <LoadSpinner/> : null; 
-    const content = !loading ? <PlanetView planet={planet}/> : null;
+    const content = hasData ? <PlanetView planet={planet}/> : null;
+    const errorMessage = error ? <ErrorIndicator/> : null;
+    
 
     return (
         <div className="random-planet jumbotron rounded">
           {spinner}
           {content}
+          {errorMessage}
         </div>
 
     );
