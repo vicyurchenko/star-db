@@ -46,13 +46,14 @@ export default class RandomPlanet extends Component<randomPlanetProps> {
     super(props);
     this.swapiService = new SwapiService();
     this.updatePlanet();
+    setInterval(this.updatePlanet, 3000);
   }
 
   onError = (err: any) => {
     this.setState({error: true, loading: false})
   };
 
-  async updatePlanet() {
+   updatePlanet = async () => {
     let planetsCount = 0;
     await this.swapiService.getAllPlanets().then(p => planetsCount = p.length).catch(this.onError);
     await this.swapiService.getPlanet(Math.floor(Math.random() * (planetsCount-1) + 1)).then((planet) => { 
