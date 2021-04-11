@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../header';
 import RandomPlanet from '../random-planet';
-import ItemList from '../item-list';
+import PeopleList from '../peple-list';
 import PersonDetails from '../person-details';
 
 import './app.css';
@@ -13,7 +13,7 @@ const App = () => {
             <RandomPlanet />
             <div className="row mb2">
                 <div className="col-md-6">
-                    <ItemList />
+                    <PeopleList/>
                 </div>
                 <div className="col-md-6">
                     <PersonDetails />

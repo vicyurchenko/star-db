@@ -1,6 +1,6 @@
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "node:constants";
 
-type responsePeopleData = {
+type responseHumanData = {
   birth_year: string,
   created: string,
   edited: string,
@@ -66,6 +66,11 @@ type planetData = {
   population: number
 }
 
+type humanData = {
+  id: number,
+  name: string,
+}
+
 export default class SwapiService {
 
   private apiBase: string = 'https://swapi.dev/api';
@@ -79,14 +84,21 @@ export default class SwapiService {
     return body;
   }
 
-  async getAllPeople(): Promise<responsePeopleData[]> {
-    const res: { results: responsePeopleData[] } = await this.getResource(`${this.apiBase}/people/`);
-    return res.results;
+  async getAllPeople(): Promise<humanData[]> {
+    const res: { results: responseHumanData[] } = await this.getResource(`${this.apiBase}/people/`);
+
+    let people: humanData[] = [];
+
+    res.results.map( (human) => {
+      people.push(this.transformHuman(human))
+    })
+
+    return people;
   }
 
-  async getPerson(id: number): Promise<responsePeopleData> {
-    const res: responsePeopleData = await this.getResource(`${this.apiBase}/people/${id}`);
-    return res;
+  async getPerson(id: number): Promise<humanData> {
+    const res: responseHumanData = await this.getResource(`${this.apiBase}/people/${id}`);
+    return this.transformHuman(res);
   }
 
   async getAllPlanets(): Promise<responsePlanetData[]> {
@@ -130,6 +142,19 @@ export default class SwapiService {
     };
 
     return planet;
+  }
+
+  private transformHuman(respHuman: responseHumanData) : humanData {
+    let id: number =  0;
+    const regResult: any = respHuman.url.match(/\/(\d*)\/$/);
+    if (typeof regResult !=  null) {
+      id = regResult[1];
+    }
+    let human: humanData = {
+      id,
+      name: respHuman.name,
+    };
+    return human;
   }
 
 
