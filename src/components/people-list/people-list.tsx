@@ -65,11 +65,11 @@ export default class PeopleList extends Component<peopleListProps> {
 
 
     return (
-        <div className="random-planet jumbotron rounded">
+        <React.Fragment>
           {spinner}
           {content}
           {errorMessage}
-        </div>
+        </React.Fragment>
 
     );
 
