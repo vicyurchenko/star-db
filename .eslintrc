@@ -1,0 +1,77 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "airbnb",
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jsx-a11y/recommended",
+    "plugin:promise/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "project": "tsconfig.json",
+    "tsconfigRootDir": ".",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "optimize-regex",
+    "no-loops",
+    "no-use-extend-native",
+    "promise",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "react/jsx-filename-extension": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-onchange": "off",
+    "react/static-property-placement": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": false,
+        "optionalDependencies": false,
+        "peerDependencies": false,
+        "packageDir": "./"
+      }
+    ],
+    "allowTernary": 0,
+    "optimize-regex/optimize-regex": "warn",
+    "no-loops/no-loops": 2,
+    "no-use-extend-native/no-use-extend-native": 2,
+    "lines-between-class-members": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "react/jsx-props-no-spreading": "off",
+    "import/no-named-as-default": 0,
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/unbound-method": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "camelcase": "off",
+    "react/jsx-curly-spacing": "off",
+    "array-bracket-spacing": "off",
+    "object-curly-newline": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "max-len": "off"
+  },
+  "settings": {
+    "import/resolver": "webpack",
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"]
+  },
+  "globals": {
+    "document": true,
+    "window": true
+  }
+}
