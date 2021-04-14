@@ -1,5 +1,3 @@
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "node:constants";
-
 type responseHumanData = {
   birth_year: string,
   created: string,
@@ -21,10 +19,10 @@ type responseHumanData = {
 
 type responsePlanetData = {
   climate: string,
-  created:  string,
+  created: string,
   diameter: number,
   edited: string,
-  films:  string[],
+  films: string[],
   gravity: number,
   name: string,
   orbital_period: number,
@@ -60,7 +58,7 @@ type responseStarshipData = {
 type planetData = {
   id: number,
   name: string,
-  image:  string,
+  image: string,
   rotationPeriod: number,
   diameter: number,
   population: number
@@ -72,8 +70,7 @@ type humanData = {
 }
 
 export default class SwapiService {
-
-  private apiBase: string = 'https://swapi.dev/api';
+  private apiBase = 'https://swapi.dev/api';
 
   async getResource(url: string): Promise<any> {
     const res: Response = await fetch(url);
@@ -87,11 +84,11 @@ export default class SwapiService {
   async getAllPeople(): Promise<humanData[]> {
     const res: { results: responseHumanData[] } = await this.getResource(`${this.apiBase}/people/`);
 
-    let people: humanData[] = [];
+    const people: humanData[] = [];
 
-    res.results.map( (human) => {
-      people.push(this.transformHuman(human))
-    })
+    res.results.map((human) => {
+      people.push(this.transformHuman(human));
+    });
 
     return people;
   }
@@ -123,39 +120,36 @@ export default class SwapiService {
   }
 
   private transformPlanet(respPlanet: responsePlanetData) : planetData {
-
-    let id: number =  0;        
+    let id = 0;
 
     const regResult: any = respPlanet.url.match(/\/(\d*)\/$/);
 
-    if (typeof regResult !=  null) {
+    if (typeof regResult != null) {
       id = regResult[1];
     }
 
-    let planet: planetData = {
+    const planet: planetData = {
       id,
       name: respPlanet.name,
       image: `https://starwars-visualguide.com/assets/img/planets/${id}.jpg`,
       rotationPeriod: respPlanet.rotation_period,
       population: respPlanet.population,
-      diameter: respPlanet.diameter
+      diameter: respPlanet.diameter,
     };
 
     return planet;
   }
 
   private transformHuman(respHuman: responseHumanData) : humanData {
-    let id: number =  0;
+    let id = 0;
     const regResult: any = respHuman.url.match(/\/(\d*)\/$/);
-    if (typeof regResult !=  null) {
+    if (typeof regResult != null) {
       id = regResult[1];
     }
-    let human: humanData = {
+    const human: humanData = {
       id,
       name: respHuman.name,
     };
     return human;
   }
-
-
 }
