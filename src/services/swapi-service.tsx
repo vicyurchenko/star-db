@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 type responseHumanData = {
   birth_year: string,
   created: string,
@@ -72,14 +73,15 @@ type humanData = {
 export default class SwapiService {
   private apiBase = 'https://swapi.dev/api';
 
-  async getResource(url: string): Promise<any> {
+  getResource = async (url: string): Promise<any> => {
     const res: Response = await fetch(url);
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}, received ${res.status}`);
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const body: any = await res.json();
     return body;
-  }
+  };
 
   async getAllPeople(): Promise<humanData[]> {
     const res: { results: responseHumanData[] } = await this.getResource(`${this.apiBase}/people/`);
