@@ -30,10 +30,6 @@ export default class RandomPlanet extends Component<randomPlanetProps, randomPla
 
   constructor(props: randomPlanetProps) {
     super(props);
-    this.swapiService = new SwapiService();
-  }
-
-  componentDidMount() {
     this.state = {
       planet: {
         name: '',
@@ -45,6 +41,10 @@ export default class RandomPlanet extends Component<randomPlanetProps, randomPla
       loading: true,
       error: false,
     };
+    this.swapiService = new SwapiService();
+  }
+
+  componentDidMount(): void {
     setInterval(this.updatePlanet, 3000);
   }
 
@@ -52,11 +52,14 @@ export default class RandomPlanet extends Component<randomPlanetProps, randomPla
 
    updatePlanet = (): void => {
      this.swapiService.getAllPlanets()
-       .then((p) => {
+       .then(async (p) => {
          const planetsCount = p.length;
-         return this.swapiService.getPlanet(Math.floor(Math.random() * (planetsCount - 1) + 1))
-           .then((planet) => this.setState({ planet, loading: false }))
-           .catch(this.onError);
+         try {
+           const planet = await this.swapiService.getPlanet(Math.floor(Math.random() * (planetsCount - 1) + 1));
+           return this.setState({ planet, loading: false });
+         } catch (result_1) {
+           return this.onError();
+         }
        })
        .catch(this.onError);
    }

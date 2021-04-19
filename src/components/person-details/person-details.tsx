@@ -2,7 +2,7 @@ import React from 'react';
 
 import './person-details.css';
 
-export default function PersonDetails() {
+export default function PersonDetails(): JSX.Element {
   return (
     <div className="person-details card">
       <img

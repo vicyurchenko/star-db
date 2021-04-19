@@ -6,7 +6,7 @@ import PersonDetails from '../person-details';
 
 import './app.css';
 
-const App = () => (
+const App = (): JSX.Element => (
   <div>
     <Header />
     <RandomPlanet />

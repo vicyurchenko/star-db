@@ -34,19 +34,19 @@ export default class PeopleList extends Component<peopleListProps, peopleListSta
     this.swapiService = new SwapiService();
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.updatePeopleList();
   }
 
-  onError = () => {
+  onError = (): void => {
     this.setState({ error: true, loading: false });
   };
 
-  updatePeopleList = () => {
+  updatePeopleList = (): void => {
     this.swapiService.getAllPeople().then((people) => this.setState({ people, loading: false })).catch(this.onError);
   }
 
-  render() {
+  render(): JSX.Element {
     const { people, error, loading } = this.state;
 
     const hasData = !(error || loading);

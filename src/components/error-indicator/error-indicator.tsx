@@ -1,7 +1,7 @@
 import React from 'react';
 import './error-indicator.css';
 
-const ErrorIndicator = () => (
+const ErrorIndicator = (): JSX.Element => (
   <div className="error-indicator">
     <span className="boom">BOOM!</span>
     <span>somthing has gone wrong</span>
