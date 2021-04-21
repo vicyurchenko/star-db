@@ -42,10 +42,11 @@ export default class RandomPlanet extends Component<randomPlanetProps, randomPla
       error: false,
     };
     this.swapiService = new SwapiService();
+    this.updatePlanet();
   }
 
   componentDidMount(): void {
-    setInterval(this.updatePlanet, 3000);
+    // setInterval(this.updatePlanet, 3000);
   }
 
   onError = (): void => this.setState({ error: true, loading: false });

@@ -85,7 +85,8 @@ export default class SwapiService {
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}, received ${res.status}`);
     }
-    return res.json() as Promise<T>;
+    const { results } = await res.json() as {results: T};
+    return results;
   };
 
   async getAllPeople(): Promise<humanData[]> {
@@ -93,8 +94,9 @@ export default class SwapiService {
       results: [],
     };
 
-    allPeople.results = await this.getResource<responseHumanData[]>(`${this.apiBase}/people/`);
-    return allPeople.results.map((human) => this.transformHuman(human));
+    const res: responseHumanData[] = await this.getResource<responseHumanData[]>(`${this.apiBase}/people/`);
+    console.log(res);
+    return res.map((human) => this.transformHuman(human));
   }
 
   async getPerson(id: number): Promise<humanData> {
@@ -104,6 +106,7 @@ export default class SwapiService {
 
   async getAllPlanets(): Promise<responsePlanetData[]> {
     const res: { results: responsePlanetData[] } = await this.getResource(`${this.apiBase}/planets/`);
+    console.log('all planets', res);
     return res.results;
   }
 

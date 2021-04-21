@@ -61,28 +61,12 @@ export default class PeopleList extends Component<peopleListProps, peopleListSta
         {content}
         {errorMessage}
       </>
-
-    );
-
-    return (
-      <ul className="item-list list-group">
-        <li className="list-group-item">
-          Luke Skywalker
-        </li>
-        <li className="list-group-item">
-          Darth Vader
-        </li>
-        <li className="list-group-item">
-          R2-D2
-        </li>
-      </ul>
     );
   }
 }
 
 const PeopleView = ({ people }:peopleViewProps) => {
-  const peoplesJSX = people.map((el) => (<li className="list-group-item">{el.name}</li>));
-
+  const peoplesJSX = people.map((el) => (<li key={el.id} className="list-group-item">{el.name}</li>));
   return (
     <ul className="item-list list-group">
       {peoplesJSX}
