@@ -93,9 +93,7 @@ export default class SwapiService {
     const allPeople: humanDataResults = {
       results: [],
     };
-
     const res: responseHumanData[] = await this.getResource<responseHumanData[]>(`${this.apiBase}/people/`);
-    console.log(res);
     return res.map((human) => this.transformHuman(human));
   }
 
@@ -105,13 +103,13 @@ export default class SwapiService {
   }
 
   async getAllPlanets(): Promise<responsePlanetData[]> {
-    const res: { results: responsePlanetData[] } = await this.getResource(`${this.apiBase}/planets/`);
-    console.log('all planets', res);
-    return res.results;
+    const res: responsePlanetData[] = await this.getResource<responsePlanetData[]>(`${this.apiBase}/planets/`);
+    return res;
   }
 
   async getPlanet(id: number): Promise<planetData> {
     const res: responsePlanetData = await this.getResource<responsePlanetData>(`${this.apiBase}/planets/${id}`);
+    console.log('planet', res);
     return this.transformPlanet(res);
   }
 
