@@ -81,7 +81,9 @@ export default class SwapiService {
   private apiBase = 'https://swapi.dev/api';
 
   getResource = async <T>(url: string): Promise<T> => {
+    console.log(url);
     const res: Response = await fetch(url);
+    console.log(res);
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}, received ${res.status}`);
     }
@@ -109,7 +111,7 @@ export default class SwapiService {
 
   async getPlanet(id: number): Promise<planetData> {
     const res: responsePlanetData = await this.getResource<responsePlanetData>(`${this.apiBase}/planets/${id}`);
-    console.log('planet', res);
+    console.log('1234', res);
     return this.transformPlanet(res);
   }
 

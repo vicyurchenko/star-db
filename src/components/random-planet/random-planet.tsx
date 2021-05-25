@@ -58,7 +58,7 @@ export default class RandomPlanet extends Component<randomPlanetProps, randomPla
          try {
            const planet = await this.swapiService.getPlanet(Math.floor(Math.random() * (planetsCount - 1) + 1));
            return this.setState({ planet, loading: false });
-         } catch (result_1) {
+         } catch (result) {
            return this.onError();
          }
        })
