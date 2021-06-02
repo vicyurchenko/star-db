@@ -46,7 +46,7 @@ export default class RandomPlanet extends Component<randomPlanetProps, randomPla
   }
 
   componentDidMount(): void {
-    // setInterval(this.updatePlanet, 3000);
+    setInterval(this.updatePlanet, 3000);
   }
 
   onError = (): void => this.setState({ error: true, loading: false });

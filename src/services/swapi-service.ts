@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-regexp-exec */
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 type responseHumanData = {
   birth_year: string,
   created: string,
@@ -87,11 +83,11 @@ export default class SwapiService {
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}, received ${res.status}`);
     }
-    const json: { results?: T } = await res.json();
+    const json: { results?: T } = await res.json() as T;
     if (json.results) {
       return json.results;
     }
-    return {} as T;
+    return json as T;
   };
 
   async getAllPeople(): Promise<humanData[]> {
@@ -131,8 +127,7 @@ export default class SwapiService {
 
   private transformPlanet = (respPlanet: responsePlanetData) : planetData => {
     let id = 0;
-    const regResult = respPlanet.url.match(/\/(\d*)\/$/);
-
+    const regResult = /\/(\d*)\/$/.exec(respPlanet.url);
     if (regResult) {
       id = regResult[1] as unknown as number;
     }
@@ -151,7 +146,7 @@ export default class SwapiService {
 
   private transformHuman = (respHuman: responseHumanData) : humanData => {
     let id = 0;
-    const regResult = respHuman.url.match(/\/(\d*)\/$/);
+    const regResult = /\/(\d*)\/$/.exec(respHuman.url);
     if (regResult) {
       id = regResult[1] as unknown as number;
     }
