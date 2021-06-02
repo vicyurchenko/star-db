@@ -87,8 +87,11 @@ export default class SwapiService {
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}, received ${res.status}`);
     }
-    const { results } = await res.json() as {results: T};
-    return results;
+    const json: { results?: T } = await res.json();
+    if (json.results) {
+      return json.results;
+    }
+    return {} as T;
   };
 
   async getAllPeople(): Promise<humanData[]> {
