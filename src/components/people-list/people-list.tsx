@@ -38,6 +38,10 @@ export default class PeopleList extends Component<peopleListProps, peopleListSta
     this.updatePeopleList();
   }
 
+  propsOnItemSelect(): void {
+
+  }
+
   onError = (): void => {
     this.setState({ error: true, loading: false });
   };
