@@ -67,6 +67,10 @@ type planetData = {
 type humanData = {
   id: number,
   name: string,
+  gender: string,
+  eyeColor: string,
+  image: string,
+  birthYear: string,
 }
 
 type humanDataResults = {
@@ -77,7 +81,6 @@ export default class SwapiService {
   private apiBase = 'https://swapi.dev/api';
 
   getResource = async <T>(url: string): Promise<T> => {
-    console.log(url);
     const res: Response = await fetch(url);
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}, received ${res.status}`);
@@ -119,7 +122,6 @@ export default class SwapiService {
 
   async getStarship(id: number): Promise<responseStarshipData> {
     const res: responseStarshipData = await this.getResource(`${this.apiBase}/starships/${id}`);
-    console.log(res);
     return res;
   }
 
@@ -152,6 +154,10 @@ export default class SwapiService {
     const human: humanData = {
       id,
       name: respHuman.name,
+      gender: respHuman.gender,
+      eyeColor: respHuman.eye_color,
+      image: `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`,
+      birthYear: respHuman.birth_year,
     };
     return human;
   }

@@ -1,33 +1,122 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 import './person-details.css';
+import SwapiService from "../../services/swapi-service";
+import LoadSpinner from "../load-spinner";
+import ErrorIndicator from "../error-indicator";
 
-export default function PersonDetails(): JSX.Element {
-  return (
-    <div className="person-details card">
-      <img
-        className="person-image"
-        alt="person"
-        src="https://starwars-visualguide.com/assets/img/characters/3.jpg"
-      />
+type personDetails = {
+  itemId: number
+};
 
-      <div className="card-body">
-        <h4>R2-D2</h4>
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item">
-            <span className="term">Gender</span>
-            <span>male</span>
-          </li>
-          <li className="list-group-item">
-            <span className="term">Birth Year</span>
-            <span>43</span>
-          </li>
-          <li className="list-group-item">
-            <span className="term">Eye Color</span>
-            <span>red</span>
-          </li>
-        </ul>
+type personData = {
+  id: number,
+  name: string,
+  gender: string,
+  eyeColor: string,
+  image: string,
+  birthYear: string
+}
+
+type personState = {
+  currentId: number,
+  person: personData | null,
+  loading: boolean,
+  error: boolean
+}
+
+export default class PersonDetails extends Component<personDetails, personState>{
+  swapiService: SwapiService;
+
+  constructor(props: personDetails) {
+    super(props);
+    this.swapiService = new SwapiService();
+    this.state = {
+      currentId: props.itemId,
+      person: null,
+      loading: true,
+      error: false
+    }
+  }
+
+  componentDidMount() {
+    this.updatePerson();
+  }
+
+  componentDidUpdate(prevProps: Readonly<personDetails>, prevState: Readonly<personState>) {
+    if (this.state.person?.id !== 0 && this.state.person?.id !== prevState.person?.id) {
+      this.updatePerson();
+    }
+  }
+
+  onError = (): void => {
+    this.setState({ error: true, loading: false });
+  };
+
+  updatePerson() {
+    console.log('here');
+    const { currentId } = this.state;
+    if (currentId == 0) {
+      return;
+    }
+    this.swapiService.getPerson(currentId)
+      .then((person) => this.setState({person, loading: false}))
+      .catch(this.onError)
+  }
+
+  renderPerson = (person: personData): JSX.Element => {
+    return (
+      <div className="person-details card">
+        <img
+          className="person-image"
+          alt={person.name}
+          src={person.image}
+        />
+
+        <div className="card-body">
+          <h4>{person.name}</h4>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">
+              <span className="term">Gender</span>
+              <span>{person.gender}</span>
+            </li>
+            <li className="list-group-item">
+              <span className="term">Birth Year</span>
+              <span>{person.birthYear}</span>
+            </li>
+            <li className="list-group-item">
+              <span className="term">Eye Color</span>
+              <span>{person.eyeColor}</span>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  render(): JSX.Element  {
+
+    const { person, error, loading } = this.state;
+
+    if (person == null) {
+      return <span>Select a person from List</span>
+    }
+
+    const hasData = !(error || loading);
+
+    const spinner = loading ? <LoadSpinner /> : null;
+    const content = hasData ? this.renderPerson(person) : null;
+    const errorMessage = error ? <ErrorIndicator /> : null;
+
+    return (
+      <>
+        {spinner}
+        {content}
+        {errorMessage}
+      </>
+    );
+
+
+
+  }
 }

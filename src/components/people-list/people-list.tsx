@@ -3,6 +3,7 @@ import './people-list.css';
 import SwapiService from '../../services/swapi-service';
 import LoadSpinner from '../load-spinner';
 import ErrorIndicator from '../error-indicator';
+import internal from "stream";
 
 type person = {
   id: number,
@@ -13,7 +14,10 @@ type peopleViewProps = {
   people: person[]
 }
 
-type peopleListProps = Record<string, unknown>
+type peopleListProps = {
+  onItemSelect: Function
+}
+
 
 type peopleListState = {
   people: person[],
@@ -38,10 +42,6 @@ export default class PeopleList extends Component<peopleListProps, peopleListSta
     this.updatePeopleList();
   }
 
-  propsOnItemSelect(): void {
-
-  }
-
   onError = (): void => {
     this.setState({ error: true, loading: false });
   };
@@ -50,13 +50,23 @@ export default class PeopleList extends Component<peopleListProps, peopleListSta
     this.swapiService.getAllPeople().then((people) => this.setState({ people, loading: false })).catch(this.onError);
   }
 
+  renderItemList = (items: person[]): JSX.Element => {
+    const itemsJSX = items.map((el) => (<li key={el.id} className="list-group-item" onClick={() => this.props.onItemSelect(el.id)}>{el.name}</li>));
+
+    return (
+      <ul className="item-list list-group">
+        {itemsJSX}
+      </ul>
+    )
+  }
+
   render(): JSX.Element {
     const { people, error, loading } = this.state;
 
     const hasData = !(error || loading);
 
     const spinner = loading ? <LoadSpinner /> : null;
-    const content = hasData ? <PeopleView people={people} /> : null;
+    const content = hasData ? this.renderItemList(people) : null;
     const errorMessage = error ? <ErrorIndicator /> : null;
 
     return (
@@ -69,11 +79,4 @@ export default class PeopleList extends Component<peopleListProps, peopleListSta
   }
 }
 
-const PeopleView = ({ people }:peopleViewProps) => {
-  const peoplesJSX = people.map((el) => (<li key={el.id} className="list-group-item" onClick={() => this.propsOnItemSelect(el.id)}>{el.name}</li>));
-  return (
-    <ul className="item-list list-group">
-      {peoplesJSX}
-    </ul>
-  );
-};
+
