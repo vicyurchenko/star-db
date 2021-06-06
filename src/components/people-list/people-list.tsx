@@ -66,7 +66,7 @@ export default class PeopleList extends Component<peopleListProps, peopleListSta
 }
 
 const PeopleView = ({ people }:peopleViewProps) => {
-  const peoplesJSX = people.map((el) => (<li key={el.id} className="list-group-item">{el.name}</li>));
+  const peoplesJSX = people.map((el) => (<li key={el.id} className="list-group-item" onClick={() => this.propsOnItemSelect(el.id)}>{el.name}</li>));
   return (
     <ul className="item-list list-group">
       {peoplesJSX}
