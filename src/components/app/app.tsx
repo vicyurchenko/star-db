@@ -16,7 +16,7 @@ export default class App extends Component<appProps, appState> {
   constructor(props: appProps) {
     super(props);
     this.state = {
-      selectedItem: 0
+      selectedItem: 1
     }
   }
 

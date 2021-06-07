@@ -101,6 +101,7 @@ export default class SwapiService {
   }
 
   async getPerson(id: number): Promise<humanData> {
+    console.log(id);
     const res: responseHumanData = await this.getResource<responseHumanData>(`${this.apiBase}/people/${id}`);
     return this.transformHuman(res);
   }

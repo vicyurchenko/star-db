@@ -19,7 +19,6 @@ type personData = {
 }
 
 type personState = {
-  currentId: number,
   person: personData | null,
   loading: boolean,
   error: boolean
@@ -32,7 +31,6 @@ export default class PersonDetails extends Component<personDetails, personState>
     super(props);
     this.swapiService = new SwapiService();
     this.state = {
-      currentId: props.itemId,
       person: null,
       loading: true,
       error: false
@@ -44,7 +42,7 @@ export default class PersonDetails extends Component<personDetails, personState>
   }
 
   componentDidUpdate(prevProps: Readonly<personDetails>, prevState: Readonly<personState>) {
-    if (this.state.person?.id !== 0 && this.state.person?.id !== prevState.person?.id) {
+    if (this.props.itemId !== prevProps.itemId) {
       this.updatePerson();
     }
   }
@@ -54,14 +52,15 @@ export default class PersonDetails extends Component<personDetails, personState>
   };
 
   updatePerson() {
-    console.log('here');
-    const { currentId } = this.state;
-    if (currentId == 0) {
+    const { itemId } = this.props;
+    if (itemId == 0) {
       return;
     }
-    this.swapiService.getPerson(currentId)
+    this.setState({loading: true});
+    this.swapiService.getPerson(itemId)
       .then((person) => this.setState({person, loading: false}))
-      .catch(this.onError)
+      .catch(this.onError);
+
   }
 
   renderPerson = (person: personData): JSX.Element => {
