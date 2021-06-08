@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import LoadSpinner from '../load-spinner';
 import ErrorIndicator from '../error-indicator';
-import {randomPlanetState, randomPlanetProps, planetViewProps} from "../../models/types";
+import {randomPlanetState, emptyProps, planetViewProps} from "../../models/types";
 
 import './random-planet.css';
 
-export default class RandomPlanet extends Component<randomPlanetProps, randomPlanetState> {
+export default class RandomPlanet extends Component<emptyProps, randomPlanetState> {
   swapiService: SwapiService;
 
-  constructor(props: randomPlanetProps) {
+  constructor(props: emptyProps) {
     super(props);
     this.state = {
       planet: {

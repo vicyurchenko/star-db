@@ -4,11 +4,11 @@ import RandomPlanet from '../random-planet';
 import PeopleList from '../people-list';
 import PersonDetails from '../person-details';
 import './app.css';
-import {appProps, appState} from "../../models/types";
+import {emptyProps, appState} from "../../models/types";
 
-export default class App extends Component<appProps, appState> {
+export default class App extends Component<emptyProps, appState> {
 
-  constructor(props: appProps) {
+  constructor(props: emptyProps) {
     super(props);
     this.state = {
       selectedItem: 1

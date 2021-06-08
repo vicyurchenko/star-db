@@ -1,4 +1,4 @@
-export type appProps = Record<string, unknown>
+export type emptyProps = Record<string, unknown>
 
 export type appState = {
   selectedItem: number
