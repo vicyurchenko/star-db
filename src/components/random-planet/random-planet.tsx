@@ -2,28 +2,9 @@ import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import LoadSpinner from '../load-spinner';
 import ErrorIndicator from '../error-indicator';
+import {randomPlanetState, randomPlanetProps, planetViewProps} from "../../models/types";
 
 import './random-planet.css';
-
-type randomPlanetProps = Record<string, unknown>;
-
-type randomPlanet = {
-  name: string,
-  image: string,
-  rotationPeriod: number,
-  population: number,
-  diameter: number
-}
-
-type randomPlanetState = {
-  planet: randomPlanet,
-  loading: boolean,
-  error: boolean
-}
-
-interface PlanetViewProps {
-  planet: randomPlanet
-}
 
 export default class RandomPlanet extends Component<randomPlanetProps, randomPlanetState> {
   swapiService: SwapiService;
@@ -85,7 +66,7 @@ export default class RandomPlanet extends Component<randomPlanetProps, randomPla
    }
 }
 
-const PlanetView = ({ planet }:PlanetViewProps): JSX.Element => (
+const PlanetView = ({ planet }:planetViewProps): JSX.Element => (
   <>
     <img
       className="planet-image"

@@ -4,12 +4,7 @@ import RandomPlanet from '../random-planet';
 import PeopleList from '../people-list';
 import PersonDetails from '../person-details';
 import './app.css';
-
-type appProps = Record<string, unknown>
-
-type appState = {
-  selectedItem: number
-}
+import {appProps, appState} from "../../models/types";
 
 export default class App extends Component<appProps, appState> {
 

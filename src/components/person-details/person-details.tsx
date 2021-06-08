@@ -4,25 +4,7 @@ import './person-details.css';
 import SwapiService from "../../services/swapi-service";
 import LoadSpinner from "../load-spinner";
 import ErrorIndicator from "../error-indicator";
-
-type personDetails = {
-  itemId: number
-};
-
-type personData = {
-  id: number,
-  name: string,
-  gender: string,
-  eyeColor: string,
-  image: string,
-  birthYear: string
-}
-
-type personState = {
-  person: personData | null,
-  loading: boolean,
-  error: boolean
-}
+import {personDetails, personState, personData} from "../../models/types";
 
 export default class PersonDetails extends Component<personDetails, personState>{
   swapiService: SwapiService;

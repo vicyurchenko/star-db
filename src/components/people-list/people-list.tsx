@@ -3,27 +3,7 @@ import './people-list.css';
 import SwapiService from '../../services/swapi-service';
 import LoadSpinner from '../load-spinner';
 import ErrorIndicator from '../error-indicator';
-import internal from "stream";
-
-type person = {
-  id: number,
-  name: string
-};
-
-type peopleViewProps = {
-  people: person[]
-}
-
-type peopleListProps = {
-  onItemSelect: Function
-}
-
-
-type peopleListState = {
-  people: person[],
-  error: boolean,
-  loading: boolean
-}
+import {person, peopleListProps, peopleListState} from "../../models/types";
 
 export default class PeopleList extends Component<peopleListProps, peopleListState> {
   swapiService: SwapiService;

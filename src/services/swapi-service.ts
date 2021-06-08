@@ -1,81 +1,4 @@
-type responseHumanData = {
-  birth_year: string,
-  created: string,
-  edited: string,
-  eye_color: string,
-  films: string[],
-  gender: string,
-  hair_color: string,
-  height: string,
-  homeworld: string,
-  mass: string,
-  name: string,
-  skin_color: string,
-  species: []
-  starships: string[],
-  url: string,
-  vehicles: string[]
-};
-
-type responsePlanetData = {
-  climate: string,
-  created: string,
-  diameter: number,
-  edited: string,
-  films: string[],
-  gravity: number,
-  name: string,
-  orbital_period: number,
-  population: number,
-  residents: string[],
-  rotation_period: number,
-  surface_water: number,
-  terrain: number,
-  url: string,
-};
-
-type responseStarshipData = {
-  MGLT: string,
-  cargo_capacity: string,
-  consumables: string,
-  cost_in_credits: string,
-  created: string,
-  crew: string,
-  edited: string,
-  hyperdrive_rating: string,
-  length: string,
-  manufacturer: string,
-  max_atmosphering_speed: string,
-  model: string,
-  name: string,
-  passengers: string,
-  films: string[],
-  pilots: string[],
-  starship_class: string,
-  url: string,
-};
-
-type planetData = {
-  id: number,
-  name: string,
-  image: string,
-  rotationPeriod: number,
-  diameter: number,
-  population: number
-}
-
-type humanData = {
-  id: number,
-  name: string,
-  gender: string,
-  eyeColor: string,
-  image: string,
-  birthYear: string,
-}
-
-type humanDataResults = {
-  results: responseHumanData[];
-};
+import {personData, responseHumanData, planetData, responsePlanetData, responseStarshipData} from "../models/types";
 
 export default class SwapiService {
   private apiBase = 'https://swapi.dev/api';
@@ -92,16 +15,12 @@ export default class SwapiService {
     return json as T;
   };
 
-  async getAllPeople(): Promise<humanData[]> {
-    const allPeople: humanDataResults = {
-      results: [],
-    };
+  async getAllPeople(): Promise<personData[]> {
     const res: responseHumanData[] = await this.getResource<responseHumanData[]>(`${this.apiBase}/people/`);
     return res.map((human) => this.transformHuman(human));
   }
 
-  async getPerson(id: number): Promise<humanData> {
-    console.log(id);
+  async getPerson(id: number): Promise<personData> {
     const res: responseHumanData = await this.getResource<responseHumanData>(`${this.apiBase}/people/${id}`);
     return this.transformHuman(res);
   }
@@ -145,14 +64,14 @@ export default class SwapiService {
     return planet;
   }
 
-  private transformHuman = (respHuman: responseHumanData) : humanData => {
+  private transformHuman = (respHuman: responseHumanData) : personData => {
     let id = 0;
     const regResult = /\/(\d*)\/$/.exec(respHuman.url);
     if (regResult) {
       id = regResult[1] as unknown as number;
     }
 
-    const human: humanData = {
+    const human: personData = {
       id,
       name: respHuman.name,
       gender: respHuman.gender,
