@@ -1,8 +1,8 @@
-export type emptyProps = Record<string, unknown>
+export type emptyProps = Record<string, unknown>;
 
 export type appState = {
   selectedItem: number
-}
+};
 
 export type person = {
   id: number,
@@ -11,13 +11,13 @@ export type person = {
 
 export type itemListProps = {
   onItemSelect: Function
-}
+};
 
 export type peopleListState = {
   people: person[],
   error: boolean,
   loading: boolean
-}
+};
 
 export type personDetails = {
   itemId: number
@@ -30,15 +30,13 @@ export type personData = {
   eyeColor: string,
   image: string,
   birthYear: string
-}
+};
 
 export type personState = {
   person: personData | null,
   loading: boolean,
   error: boolean
-}
-
-export type randomPlanetProps = Record<string, unknown>;
+};
 
 export type randomPlanet = {
   name: string,
@@ -46,17 +44,17 @@ export type randomPlanet = {
   rotationPeriod: number,
   population: number,
   diameter: number
-}
+};
 
 export type randomPlanetState = {
   planet: randomPlanet,
   loading: boolean,
   error: boolean
-}
+};
 
 export type planetViewProps = {
   planet: randomPlanet
-}
+};
 
 export type responseHumanData = {
   birth_year: string,
@@ -122,7 +120,7 @@ export type planetData = {
   rotationPeriod: number,
   diameter: number,
   population: number
-}
+};
 
 export type humanDataResults = {
   results: responseHumanData[];
