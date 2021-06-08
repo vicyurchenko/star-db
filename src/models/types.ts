@@ -9,7 +9,7 @@ export type person = {
   name: string
 };
 
-export type peopleListProps = {
+export type itemListProps = {
   onItemSelect: Function
 }
 

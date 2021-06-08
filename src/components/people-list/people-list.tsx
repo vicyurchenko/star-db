@@ -3,12 +3,12 @@ import './people-list.css';
 import SwapiService from '../../services/swapi-service';
 import LoadSpinner from '../load-spinner';
 import ErrorIndicator from '../error-indicator';
-import {person, peopleListProps, peopleListState} from "../../models/types";
+import {person, itemListProps, peopleListState} from "../../models/types";
 
-export default class PeopleList extends Component<peopleListProps, peopleListState> {
+export default class PeopleList extends Component<itemListProps, peopleListState> {
   swapiService: SwapiService;
 
-  constructor(props: peopleListProps) {
+  constructor(props: itemListProps) {
     super(props);
     this.state = {
       people: [],
